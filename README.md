@@ -1,4 +1,4 @@
-# JavaScript
+![Image of Javascript](img/js.png)
 
 ### JavaScript Principles
 
