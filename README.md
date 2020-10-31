@@ -1,6 +1,6 @@
 ![Image of Javascript](img/js.png)
 
-### JavaScript Principles
+### 1) Principles of JavaScript
 
 - When the javascript code runs, it:
   - Goes through the code line-by-line and runs/‘executes’  each line - known as the thread of execution
@@ -54,8 +54,9 @@ output: __
 const output = multiplyBy2(num); //This `const output = multiplyBy2(num);` in `Execution context`
 ```
 
-### Execution context
-**Created and run the code of a function - has 2 parts**
+**Execution context**
+
+Created and run the code of a function - has 2 parts
 - [x] Thread of execution
 - [x] Memory
 
@@ -75,5 +76,130 @@ const newOutput = multiplyBy2(10); //This `const newOutput = multiplyBy2(10);` i
 ```
 ![Image of Javascript](img/exc2.png)
 
+----------------------------------------
+
+### 2) Callbacks & Higher order functions
+
+Why do we even have functions?
+
+Let's see why ...
+
+Create function 10 squared
+- Takes no input
+- Returns 10*10
+
+What is the syntax (the exact code we type)?
+
+```javascript
+function tenSquared() {
+  return 10 * 10;
+}
+
+tenSquared(); // 100
+```
+OK... What about a 9 squared function?
+
+```javascript
+function nineSquared() {
+  return 9 * 9;
+}
+
+nineSquared(); // 81
+```
+And 8 squared function? 125 squared?
+
+What principle are we breaking? - **DRY (Don't Repeat Yourself)** 
+This is a fundamental principle in programming
+
+We can generalize the function to make it reusable
+
+```javascript
+function squareNum(num) {
+  return num * num;
+}
+
+squareNum(10); // 100
+squareNum(9); // 81
+squareNum(8); // 64
+```
+
+**Generalize functions**
+
+‘Parameters’ (placeholders) mean we don’t need to decide what data to run our functionality on until we run the function
+- Then provide an actual value (‘argument’) when we run the function
+
+**Higher order functions follow same principle.**
+
+We may not want to decide exactly what some of our functionality is until we run our function
+- The outer function that takes in a function is our higher-order function
+- The function we insert in our callback function (callback function)
+
+**Higher-order functions**
+- Takes in a function or passes out  function
+
+Now suppose we have  function `copyArrayAndMultiplyBy2`
+
+```javascript
+function copyArrayAndMultiplyBy2(array) {
+  const outer = [];
+  for(let i = 0; i < array.length; i++) {
+    outer.push(array[i] * 2);
+  }
+  return outer;
+}
+
+const myArray = [1,2,3];
+const result = copyArrayAndMultiplyBy2(myArray);
+```
+
+What if want to copy array and divide by 2?
+
+```javascript
+function copyArrayAndDivideBy2(array) {
+  const outer = [];
+  for(let i = 0; i < array.length; i++) {
+    outer.push(array[i] / 2);
+  }
+  return outer;
+}
+
+const myArray = [1,2,3];
+const result = copyArrayAndDivideBy2(myArray);
+```
+
+This is really problematic...
+
+must be a better way
+
+We can generalize our function - so we pass in our specific instruction only when
+we run **copyArrayAndManipulate**
+
+```javascript
+function copyArrayAndManipulate(array, instructions) {
+  const outer = [];
+  for(let i = 0; i < array.length; i++) {
+    outer.push(instructions(array[i]));
+  }
+  return outer;
+}
 
 
+const result = copyArrayAndManipulate([1,2,3], input => input * 2);
+```
+
+**Callbacks and higher order functions simplify our code and keep it DRY**
+- Declarative readable code: map, filter, reduce - the most readable way to write code to work with data
+- Asynchronous JavaScript: callbacks are a core aspect of async JavaScript, and are under-the-hood of promises, async/await
+
+Which is our Higher order function? - 
+The outer function that takes in a function is our higher-order function.
+
+Which is our Callback function? - 
+The function we insert is our callback function
+
+### 3) Closure (scope and execution context)
+Soon...
+### 4) Asynchronous javascript & the event loop
+Soon...
+### 5) Classes & Prototypes (OOP)
+Soon..
