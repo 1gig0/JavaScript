@@ -44,21 +44,29 @@ output: __
 
 2 . puts `multiplyBy2(3)` in the Call stack
 
+3 . Execution context `multiplyBy2(3)`
+
 **Call stack**
 - JavaScript keeps track of what function is currently running (where’s the thread of execution)
 - Run a function - add to call stack 
 - Finish running the function - JS removes it from call stack
 - Whatever is stop of the call stack - that’s the function we’re currently running
 
-```javascript
-const output = multiplyBy2(num); //This `const output = multiplyBy2(num);` in `Execution context`
-```
+![Image of Javascript](img/callStack.gif)
+
+You all must have seen the long red error stack trace sometimes in our browser console, that basically indicates the current state of the call stack and where in the function it failed in a top to bottom manner just like stack 
+(see image below)
+
+![Image of Javascript](img/callErr.png)
+
+Sometimes, we get into an infinite loop as we call a function multiple times recursively and as for Chrome browser, there is a limit on the size of the stack which is 16,000 frames , more than that it will just kill things for you and throw Max Stack Error Reached 
+(image below).
+
+![Image of Javascript](img/maxStack.png)
+
+---------------------------------------------
 
 **Execution context**
-
-Created and run the code of a function - has 2 parts
-- [x] Thread of execution
-- [x] Memory
 
 ```javascript
 function multiplyBy2(inputNumber) {
@@ -66,6 +74,15 @@ function multiplyBy2(inputNumber) {
   return result;
 }
 ```
+
+Created and run the code of a function - has 2 parts
+- [x] Thread of execution
+- [x] Memory
+
+```javascript
+const output = multiplyBy2(num); //This `const output = multiplyBy2(num);` in `Execution context`
+```
+
 The photo below shows you how it works
 
 ![Image of Javascript](img/exc.png)
@@ -76,6 +93,29 @@ const newOutput = multiplyBy2(10); //This `const newOutput = multiplyBy2(10);` i
 ```
 ![Image of Javascript](img/exc2.png)
 
+-----------------------------------------
+Let’s understand this with the help of an example:
+
+```javascript
+var a = 10;
+
+function functionA() {
+
+	console.log("Start function A");
+
+	function functionB(){
+		console.log("In function B");
+	}
+
+	functionB();
+
+}
+
+functionA();
+
+console.log("GlobalContext");
+```
+![Image of Javascript](img/exCont.gif)
 ----------------------------------------
 
 ### 2) Callbacks & Higher order functions
