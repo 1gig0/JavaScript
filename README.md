@@ -238,7 +238,74 @@ Which is our Callback function? -
 The function we insert is our callback function
 
 ### 3) Closure (scope and execution context)
-Soon...
+
+**What is a Closure?**
+
+A **closure** is the combination of a function bundled together (enclosed) with references to its surrounding state (the **lexical environment**). In other words, a closure gives you access to an outer function’s scope from an inner function. In JavaScript, closures are created every time a function is created, at function creation time.
+
+**Closure**
+- Closure is the most esoteric of javascript concepts
+- Enables powerful pro-level functions like ‘once’ and ‘memoize’
+- Many JavaScript design patterns including the module pattern use closure
+- Build iterators, handle partial application and maintain state in an asynchronous world
+- Functions with memories
+- When the function get call, we create a live tore of data (local memory/ variable environment/state) for the function’s execution context
+
+Closure gives our functions persistent memories and entire new toolkit for writing ✍️ professional code
+- Helper functions: everyday professional helper functions like ‘once’ and ‘memoize’
+- Iterator and generators: which use lexical scoping and closure to achieve the most contemporary patterns for handling data in javascript
+- Module pattern: preserve state for the life of an application without polluting the global namespace
+- Asynchronous JavaScript: callbacks and promises rely on closure to persist state in an synchronous environment
+
+Let’s understand this with the help of an example:
+
+```javascript
+function outer() {
+  let counter = 0;
+  function incCount() { counter++; }
+  return incCount;
+}
+
+const myNewFunc = outer();
+```
+
+what will happen? (see image below)
+
+![Image of Javascript](img/closure.png)
+
+The `Backpack` (or `Closure`) of live data is attached
+`incCount` (then to `myNewFunc`) throught a hidden property
+known as `[[scope]]` which persists when the inner function
+is returned out;
+
+
+Let's execute `myNewFunc`
+
+```javascript
+myNewFunc();
+```
+
+what will happen? (see image below)
+
+![Image of Javascript](img/closure1.png)
+
+Let's execute `myNewFunc` a second time
+
+```javascript
+myNewFunc();
+```
+
+![Image of Javascript](img/closure2.png)
+
+**If you console log function definition, it has hidden property `[[scope]]` (it links to store data)**
+
+Closure technical definition
+- Closed over `variable environment` [C.O.V.E]
+- Persistent lexical scope referenced data [P.L.S.R.D] //What is scope? - 
+Scope is rules in any programming language for at any given line of code, what data do i have available for me
+- `Backpack`
+- `Closure`
+
 ### 4) Asynchronous javascript & the event loop
 Soon...
 ### 5) Classes & Prototypes (OOP)
