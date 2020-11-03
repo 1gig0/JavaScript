@@ -307,6 +307,166 @@ Scope is rules in any programming language for at any given line of code, what d
 - `Closure`
 
 ### 4) Asynchronous javascript & the event loop
-Soon...
+**JavaScript is not enough - We need new pieces (Some of Which aren't JavaScript at all)**
+
+**Our JavaScript engine has 3 main parts:**
+- Thread of execution 
+- Memory/variable environment 
+- Call stack
+
+**We need to add new components:**
+- Web Browser APIs/Node background APIs
+- Promises
+- Event loop, Callback/Task queue and micro task queue
+
+**JS + Web Browser**
+
+| JS  | Web Browser |
+| ------------- | ------------- |
+| setTimeout()  | Timer  |
+| document | HTML Dom  |
+| XHR/fetch()  | Network  |
+| console | console /Dev-tool   |
+| localStorage  | Local storage  |
+
+Let’s understand this with the help of an example:
+
+
+```javascript
+function printHello(){ console.log('Hello'); }
+function blockFor1Sec() {
+  // Block in the JavaScript thread for 1 sec
+}
+
+setTimeout(printHello, 0);
+
+blockFor1Sec();
+console.log('Me first!');
+```
+
+what will happen? (see image below)
+
+![Image of Javascript](img/setTimeout.png)
+
+then...
+
+![Image of Javascript](img/blockFor1Sec.png)
+
+----
+
+![Image of Javascript](img/consLog.png)
+
+And Finally when all global codes are finish running
+what happens? `printHello()` function will go in Call Stack with
+the help of Event Loop. (see image below)
+
+![Image of Javascript](img/printHell.png)
+
+Let’s look at a other visual example:
+
+```javascript
+const foo = () => console.log("First");
+const bar = () => setTimeout(() => console.log("Second"), 500);
+const baz = () => console.log("Third");
+
+bar();
+foo();
+baz();
+```
+![Image of Javascript](img/eventL.gif)
+
+**ES5 Web Browser APIs with callback functions**
+
+**problems:**
+- Our response data is only available in the callback function - Callback Hell
+- Maybe it feels a little odd to think of passing a function into another function only for it to  run much later
+
+**ES6+ Solution (Promises)**
+
+**Promises, Async & Event loop**
+- Promises - the most significant ES6 feature
+- ASynchronicity - the feature that makes dynamic web application possible
+- The event loop - JavaScript triage (What is running and what going to run next)
+- MicroTask queue, callback queue and Wefb Browser features (APIs)
+
+Using two-pronged ‘facade’ functions that both:
+- Initiate background web browser work and
+- Return a placeholder object(promise) immediately in JavaScript 
+
+**`then` method and functionality to call on completion**
+
+Any code we want to run on the retuned data must also be save on the promise object
+
+Added using ‘then’ method to the hidden property ‘onFulFilment’
+
+Promise objects will automatically trigger the attached function to run (with its input being the returned data)
+
+JavaScript `promises` and the `Mutation Observer API` both use the `microtask queue` to run their `callbacks`.
+
+
+**Promises**
+
+**problems**
+- Debugging becomes super-hard as a result
+
+**Benefits**
+- Cleaner readable style with pseudo-synchronous style code
+- Nice error handling process
+
+
+**We have rules for the execution our asynchronously delay code**
+
+Hold promise-deferred function in a microtask queue and 
+callback function in a task queue (Callback queue)
+When the Web Browser Feature (API) finishes 
+
+Add the function to the `Call Stack` (i.e run the function) when: 
+- Call Stack is empty & all global code run (Have the `Event Loop` check this condition)
+
+**Prioritize function in `microtask queue` over the `Callback queue((Macro)task)`**
+
+| (Macro)task  | Microtask |
+| ------------- | ------------- |
+| setTimeout  | process.nextTick  |
+| setInterval | Promise callback  |
+| setImmediate  | queueMicrotask  |
+
+![Image of Javascript](img/taskQueue.gif)
+
+
+![Image of Javascript](img/promises.png)
+
+Let’s understand this with the help of an example:
+
+```javascript
+function getImige() {}
+
+getImige()
+    .then(image => console.log(image))
+    .catch(error => console.log(error))
+    .finally(() => console.log("All done"))
+```
+
+- `.then()`: Gets called after a promise resolved.
+- `.catch()`: Gets called after a promise rejected.
+- `.finally()`: Always gets called, whether the promise resolved or rejected.
+
+The `.then` method receives the value passed to the `resolve` method.
+
+![Image of Javascript](img/resolve.gif)
+
+The `.catch` method receives the value passed to the `rejected` method
+
+![Image of Javascript](img/catch.gif)
+
+Finally, we have the value that got resolved by the promise without having that entire promise object! We can now do whatever we want with this value.
+
+
+when you know that a promise will always resolve or always reject, you can write `Promise.resolve` or `Promise.reject` , with the value you want to reject or resolve the promise with!
+
+![Image of Javascript](img/prom.png)
+
+----------------------------------
+
 ### 5) Classes & Prototypes (OOP)
 Soon..
